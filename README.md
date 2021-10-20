@@ -1,6 +1,6 @@
 # Gpx2kml
 
-Scala script to convert all .gpx files in a specified directory into a single kml file.
+Scala script to convert all .gpx files in a specified directory into a single kml file. Also applies some compression (removing redundant points, dropping excessively precise decimals) to reduce the file size.
 
 Build and run the script using [sbt](https://www.scala-sbt.org/) (`sbt run`).
 
