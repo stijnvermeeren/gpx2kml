@@ -23,9 +23,7 @@ object Gpx2Kml {
           }
 
           <Placemark>
-            <name>
-              {file.getName}
-            </name>
+            <name>{file.getName}</name>
             <description></description>
             <styleUrl>#lineStyle</styleUrl>
             <LineString>
