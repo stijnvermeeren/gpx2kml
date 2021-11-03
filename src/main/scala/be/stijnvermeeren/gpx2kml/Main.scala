@@ -2,8 +2,13 @@ package be.stijnvermeeren.gpx2kml
 
 import com.typesafe.config.ConfigFactory
 
+import java.util.Locale
+
 object Main extends App {
   val config = ConfigFactory.load().getConfig("be.stijnvermeeren.gpx2kml")
+
+  // Enforce correct formatting for floating point numbers (other locales might e.g. use a comma instead of a period)
+  Locale.setDefault(Locale.US)
 
   val inDirectory = config.getString("inDirectory")
   val outPath = config.getString("outPath")
