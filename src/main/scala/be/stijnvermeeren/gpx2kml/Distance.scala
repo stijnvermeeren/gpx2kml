@@ -25,18 +25,18 @@ object Distance {
   }
 
   @tailrec
-  def removeRedundant(points: Seq[Coord], acc: Seq[Coord] = Seq.empty): Seq[Coord] = {
+  def removeRedundant(points: Seq[Coord], minDeviation: Double, acc: Seq[Coord] = Seq.empty): Seq[Coord] = {
     if (points.length < 3) {
       acc ++ points
     } else {
-      val numberOfRedundantPoints = collectRedundant(points)
+      val numberOfRedundantPoints = collectRedundant(points, minDeviation)
 
-      removeRedundant(points.drop(1 + numberOfRedundantPoints), acc :+ points.head)
+      removeRedundant(points.drop(1 + numberOfRedundantPoints), minDeviation, acc :+ points.head)
     }
   }
 
   @tailrec
-  def collectRedundant(points: Seq[Coord], step: Int = 0): Int = {
+  def collectRedundant(points: Seq[Coord], minDeviation: Double, step: Int = 0): Int = {
     if (points.length < step + 3) {
       step
     } else {
@@ -44,8 +44,8 @@ object Distance {
       val middle = points.slice(1, step + 2)
       val b = points(step + 2)
 
-      if (middle.forall(point => isBetween(a, b, point) && distanceLinePoint(a, b, point) < 0.00001)) {
-        collectRedundant(points, step + 1)
+      if (middle.forall(point => isBetween(a, b, point) && distanceLinePoint(a, b, point) < minDeviation)) {
+        collectRedundant(points, minDeviation, step + 1)
       } else {
         step
       }

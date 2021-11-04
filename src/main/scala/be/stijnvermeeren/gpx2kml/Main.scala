@@ -15,6 +15,7 @@ object Main extends App {
   val title = config.getString("title")
   val lineColor = config.getString("lineColor")
   val lineWidth = config.getInt("lineWidth")
+  val maxPointsPerLine = config.getInt("maxPointsPerLine")
 
   println(s"Reading from directory $inDirectory and writing to $outPath.")
 
@@ -23,6 +24,7 @@ object Main extends App {
     outPath = outPath,
     title = title,
     lineColor = lineColor,
-    lineWidth = lineWidth
+    lineWidth = lineWidth,
+    maxPointsPerLine = maxPointsPerLine
   )
 }
