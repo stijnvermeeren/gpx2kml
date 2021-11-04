@@ -9,8 +9,11 @@ object Gpx2Kml {
     outPath: String,
     title: String,
     lineColor: String,
-    lineWidth: Int
+    lineWidth: Int,
+    maxPointsPerLine: Int
   ): Unit = {
+    val maxPointsEnforcer = new MaxPointsEnforcer(maxPointsPerLine)
+
     val d = new File(inDirectory)
     if (d.exists && d.isDirectory) {
       val tracks = d.listFiles.filter(_.isFile).filter(_.getName.endsWith(".gpx")).sortBy(_.getName) flatMap { file =>
@@ -31,7 +34,7 @@ object Gpx2Kml {
               <extrude>1</extrude>
               <tessellate>1</tessellate>
               <coordinates>
-                {Distance.removeRedundant(points) mkString " "}
+                {maxPointsEnforcer.reducePoints(points) mkString " "}
               </coordinates>
             </LineString>
           </Placemark>
