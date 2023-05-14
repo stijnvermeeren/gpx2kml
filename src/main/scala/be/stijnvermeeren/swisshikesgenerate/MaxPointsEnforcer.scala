@@ -1,4 +1,4 @@
-package be.stijnvermeeren.gpx2kml
+package be.stijnvermeeren.swisshikesgenerate
 
 class MaxPointsEnforcer(maxPoints: Int) {
   val defaultMinDeviation: Double = 0.00001

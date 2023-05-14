@@ -1,4 +1,4 @@
-package be.stijnvermeeren.gpx2kml
+package be.stijnvermeeren.swisshikesgenerate
 
 
 case class Coord(lon: Double, lat: Double) {

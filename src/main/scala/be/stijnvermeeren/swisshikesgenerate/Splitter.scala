@@ -1,4 +1,4 @@
-package be.stijnvermeeren.gpx2kml
+package be.stijnvermeeren.swisshikesgenerate
 
 import java.io.File
 import java.nio.charset.StandardCharsets
@@ -19,25 +19,24 @@ object Splitter extends App {
   if (inDir.exists && inDir.isDirectory) {
     inDir.listFiles.filter(_.isFile).filter(_.getName.endsWith(".kml")).sortBy(_.getName) foreach { file =>
       val year = file.getName.split('.').head
-      for (placemark <- XML.loadFile(file) \\ "Placemark") {
-        val dataPoints = for {
-          name <- placemark \\ "name"
-          description <- placemark \\ "description"
-          coordinates <- placemark \\ "coordinates"
-        } yield DataPoint(name.text, description.text, coordinates.text.trim)
+      val dataPoints = for {
+        placemark <- XML.loadFile(file) \\ "Placemark"
+        name <- placemark \\ "name"
+        description <- placemark \\ "description"
+        coordinates <- placemark \\ "coordinates"
+      } yield DataPoint(name.text, description.text, coordinates.text.trim)
 
-        for {
-          group <- dataPoints.groupBy(_.name).values
-          (dataPoint @ DataPoint(name, description, coordinates), index) <- group.zipWithIndex
-        } {
-          val outName = if (group.size > 1) s"${dataPoint.trimmedName}-${index + 1}" else dataPoint.trimmedName
-          val metadata = Seq(
-            s"date: $name",
-            s"description: $description"
-          ).mkString("\n")
-          write(outDir.resolve(year).resolve(s"$outName.coordinates.txt"), coordinates)
-          write(outDir.resolve(year).resolve(s"$outName.metadata.yml"), metadata)
-        }
+      for {
+        group <- dataPoints.groupBy(_.name).values
+        (dataPoint @ DataPoint(name, description, coordinates), index) <- group.zipWithIndex
+      } {
+        val outName = if (group.size > 1) s"${dataPoint.trimmedName}-${index + 1}" else dataPoint.trimmedName
+        val metadata = Seq(
+          s"date: $name",
+          s"description: $description"
+        ).mkString("\n")
+        write(outDir.resolve(year).resolve(s"$outName.coordinates.txt"), coordinates)
+        write(outDir.resolve(year).resolve(s"$outName.metadata.yml"), metadata)
       }
     }
   }

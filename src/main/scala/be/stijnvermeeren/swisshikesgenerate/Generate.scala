@@ -1,4 +1,4 @@
-package be.stijnvermeeren.gpx2kml
+package be.stijnvermeeren.swisshikesgenerate
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory

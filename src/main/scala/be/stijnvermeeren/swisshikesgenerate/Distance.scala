@@ -1,4 +1,4 @@
-package be.stijnvermeeren.gpx2kml
+package be.stijnvermeeren.swisshikesgenerate
 
 import scala.annotation.tailrec
 

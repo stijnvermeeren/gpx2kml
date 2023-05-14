@@ -1,4 +1,4 @@
-package be.stijnvermeeren.gpx2kml
+package be.stijnvermeeren.swisshikesgenerate
 
 import com.typesafe.config.ConfigFactory
 import org.eclipse.jgit.api.Git
