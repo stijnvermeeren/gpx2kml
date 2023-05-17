@@ -11,3 +11,4 @@ libraryDependencies += "com.fasterxml.jackson.dataformat" % "jackson-dataformat-
 libraryDependencies += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.15.0"
 libraryDependencies += "commons-io" % "commons-io" % "2.11.0"
 libraryDependencies += "com.amazonaws" % "aws-java-sdk" % "1.12.469"
+libraryDependencies += "javax.xml.bind" % "jaxb-api" % "2.3.1"

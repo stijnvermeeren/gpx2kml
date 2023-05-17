@@ -46,7 +46,7 @@ object Main extends App {
   val s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.fromName(awsRegion)).build()
   val printer = new PrettyPrinter(80, 2)
 
-  val fileData = tmpDir.listFiles.filter(_.isDirectory).filterNot(_.isHidden) map { yearDir =>
+  val fileData = tmpDir.listFiles.filter(_.isDirectory).filterNot(_.isHidden).sortBy(_.getName) map { yearDir =>
     val XmlData(kml, latestDate) = Generate.xmlFromDir(yearDir, title, lineColor, lineWidth, maxPointsPerLine)
 
     val fileName = s"${yearDir.getName}.kml"
@@ -70,11 +70,12 @@ object Main extends App {
 
   val objectMetadata = new ObjectMetadata()
   objectMetadata.setContentType("application/json")
+  objectMetadata.setContentLength(contentBytes.length)
 
   s3.putObject(
     awsBucket,
     "metadata.json",
-    new ByteArrayInputStream(contentBytes): InputStream,
+    new ByteArrayInputStream(contentBytes),
     objectMetadata
   )
 }
