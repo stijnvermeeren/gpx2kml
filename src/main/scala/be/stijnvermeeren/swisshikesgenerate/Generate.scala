@@ -39,7 +39,7 @@ object Generate {
   def xmlFromDir(yearDir: File, title: String, lineColor: String, lineWidth: Int, maxPointsPerLine: Int): XmlData = {
     val year = yearDir.getName
     val data = for {
-      (name, files) <- yearDir.listFiles.groupBy(_.getName.split('.').head).toList.sortBy(_._1)
+      (name, files) <- yearDir.listFiles.groupBy(_.getName.split("[\\._]]").head).toList.sortBy(_._1)
       track <- findCoordinatesFile(files) orElse findGpxFile(files, maxPointsPerLine)
     } yield {
       val metaData = files.find(_.getName.endsWith(".metadata.yml")).map { metaDataFile =>
