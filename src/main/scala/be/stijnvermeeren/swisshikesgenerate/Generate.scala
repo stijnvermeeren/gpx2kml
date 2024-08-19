@@ -23,16 +23,24 @@ object Generate {
     files.find(_.getName.endsWith(".gpx")).flatMap { file =>
       val maxPointsEnforcer = new MaxPointsEnforcer(maxPointsPerLine)
 
-      for (track <- (XML.loadFile(file) \\ "trkseg").headOption) yield {
-        val points = for (point <- track \\ "trkpt") yield {
+      val trackPoints = for (track <- (XML.loadFile(file) \\ "trkseg").headOption) yield {
+        track \\ "trkpt"
+      }
+      val routePoints = for (track <- (XML.loadFile(file) \\ "rte").headOption) yield {
+        track \\ "rtept"
+      }
+
+      for (gpxPoints <- trackPoints orElse routePoints) yield {
+        val coords = for (point <- gpxPoints) yield {
           Coord(
             point.attribute("lon").get.toString.toDouble,
             point.attribute("lat").get.toString.toDouble
           )
         }
 
-        maxPointsEnforcer.reducePoints(points) mkString " "
+        maxPointsEnforcer.reducePoints(coords) mkString " "
       }
+
     }
   }
 
